@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>Curso JSF</title>
+	<h:body>
+		<h:outputLabel value="CURSO JSF + PRIME FACES" />
+		<br />
+		<br />
+		<h:form id="formPessoa">
+			<h:outputLabel value="Nome: "/>
+			<h:inputText value="#{pessoaBean.pessoa.nome}"  />	
+			<br/>
+			<h:outputLabel value="Sobre nome: "/>
+			<h:inputText value="#{pessoaBean.pessoa.sobrenome}"  />
+			<br/>			
+			<h:outputLabel value="Idade: "/>
+			<h:inputText value="#{pessoaBean.pessoa.idade}"  />
+			
+			<br/>
+			<h:commandButton action="#{pessoaBean.salvar()}" value="Salvar" />
+			
+						
+		</h:form>
+	</h:body>
+</h:head>
+</html>

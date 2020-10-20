@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>Curso JSF</title>
+
+	<script>
+		function alteraValorDoCampo() {
+			var campo = document.getElementById("formPessoa:nome");
+			campo.value='Voce clicou no boão :)';
+		}
+	</script>
+
+</h:head>
+<h:body>
+	<h:form id="formPessoa">
+		<h:outputLabel value="CURSO JSF + PRIME FACES" />
+		<br />
+		<br />
+		<h:inputText id="nome" onclick="this.value='a novo texto é:'" onchange="this.value=this.value=this.value.toUpperCase();" />
+		<br />
+		<br />
+		<h:commandButton action="primeirapagina" value="Avançar" />
+
+		<br />
+		<br />
+		<h:commandButton onclick="alteraValorDoCampo();" value="Clique aqui" />
+	</h:form>
+</h:body>
+
+</html>
