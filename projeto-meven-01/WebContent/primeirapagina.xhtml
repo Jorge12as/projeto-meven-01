@@ -11,19 +11,44 @@
 		<br />
 		<br />
 		<h:form id="formPessoa">
-			<h:outputLabel value="Nome: "/>
-			<h:inputText value="#{pessoaBean.pessoa.nome}"  />	
-			<br/>
-			<h:outputLabel value="Sobre nome: "/>
-			<h:inputText value="#{pessoaBean.pessoa.sobrenome}"  />
-			<br/>			
-			<h:outputLabel value="Idade: "/>
-			<h:inputText value="#{pessoaBean.pessoa.idade}"  />
-			
-			<br/>
+			<h:outputLabel value="Id: " />
+			<h:inputText value="#{pessoaBean.pessoa.id}" readonly="true" />
+			<br />
+			<h:outputLabel value="Nome: " />
+			<h:inputText value="#{pessoaBean.pessoa.nome}" />
+			<br />
+			<h:outputLabel value="Sobre nome: " />
+			<h:inputText value="#{pessoaBean.pessoa.sobrenome}" />
+			<br />
+			<h:outputLabel value="Idade: " />
+			<h:inputText value="#{pessoaBean.pessoa.idade}" />
+
+			<br />
+			<h:commandButton action="#{pessoaBean.novo()}" value="Novo" />
 			<h:commandButton action="#{pessoaBean.salvar()}" value="Salvar" />
-			
-						
+
+			<h:commandButton action="#{pessoaBean.removeId()}" value="Excluir" />
+			<br />
+
+			<h:dataTable value="#{pessoaBean.listPessoas}" var="vPessoa">
+
+				<h:column>
+					<h:outputText value="#{vPessoa.id}" />
+				</h:column>
+				<h:column>
+					<h:outputText value="#{vPessoa.nome}" />
+				</h:column>
+				<h:column>
+					<h:outputText value="#{vPessoa.sobrenome}" />
+				</h:column>
+				<h:column>
+					<h:outputText value="#{vPessoa.idade}" />
+				</h:column>
+				<h:column>
+					<h:outputText value="#{vPessoa.dataNascimento}" />
+				</h:column>
+			</h:dataTable>
+
 		</h:form>
 	</h:body>
 </h:head>

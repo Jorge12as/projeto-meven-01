@@ -22,4 +22,9 @@ public class JPAUTIL {
 		return factory.createEntityManager();
 	}
 
+	public static Object getPrimarykey(Object entidade) {
+		
+		return factory.getPersistenceUnitUtil().getIdentifier(entidade);
+	}
+
 }
