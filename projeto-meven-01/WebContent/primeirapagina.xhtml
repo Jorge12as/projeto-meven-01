@@ -18,7 +18,7 @@
 		<h:form id="formPessoa">
 			<h:panelGrid columns="2">
 				<f:facet name="header">
-					<h:outputText value="Cadastro em JSF" />
+					<h:outputText value="Cadastro de usuários" />
 				</f:facet>
 				<h:outputLabel value="Id: " />
 				<h:inputText value="#{pessoaBean.pessoa.id}" readonly="true" />
@@ -55,21 +55,40 @@
 
 				<h:outputLabel value="Ativo: " />
 				<h:selectBooleanCheckbox value="#{pessoaBean.pessoa.ativo}" />
+
+				<h:outputLabel value="Usuário: " />
+				<h:inputText value="#{pessoaBean.pessoa.usuarioPerfil}" />
+
+				<h:outputLabel value="Senha: " />
+				<h:inputSecret value="#{pessoaBean.pessoa.senha}" />
+
+				<h:outputLabel value="Perfil: " />
+				<h:selectOneMenu id="usuarioPerfil" value="#{pessoaBean.pessoa.usuarioPerfil}"
+					required="false">
+					<f:selectItem itemLabel="[-Selecione-]"	noSelectionOption="true" />
+					<f:selectItem itemValue="ADMINISTRADOR" itemLabel="Administrador" />
+					<f:selectItem itemValue="SUPERVISOR" itemLabel="Supervisor" />
+					<f:selectItem itemValue="USUARIO PADRÃO" itemLabel="Usuario padrão" />
+				</h:selectOneMenu>
 				
 				
 				<h:panelGroup>
-					<h:commandButton action="#{pessoaBean.novo()}" value="Novo" image="/resources/img/novo.png" />
-					<h:commandButton action="#{pessoaBean.salvar()}" value="Salvar"  image="/resources/img/salvar.png"/>
-					<h:commandButton action="#{pessoaBean.removeId()}" value="Excluir" image="/resources/img/excluir.png"/>
-					<h:commandButton type="reset" value="Limpar" image="/resources/img/x.png" title="Limpar"/>
-					
+					<h:commandButton action="#{pessoaBean.novo()}" value="Novo"
+						image="/resources/img/novo.png" />
+					<h:commandButton action="#{pessoaBean.salvar()}" value="Salvar"
+						image="/resources/img/salvar.png" />
+					<h:commandButton action="#{pessoaBean.removeId()}" value="Excluir"
+						image="/resources/img/excluir.png" />
+					<h:commandButton type="reset" value="Limpar"
+						image="/resources/img/x.png" title="Limpar" />
+
 				</h:panelGroup>
 			</h:panelGrid>
 
 			<h:dataTable value="#{pessoaBean.listPessoas}" var="vPessoa"
 				border="2" cellpadding="6">
 				<f:facet name="header">
-					Lista de pessoas cadastradas
+					Lista de usuário cadastrados
 				</f:facet>
 				<h:column>
 					<f:facet name="header">ID</f:facet>
@@ -97,7 +116,7 @@
 					<h:commandLink title="Editar">
 						<f:setPropertyActionListener target="#{pessoaBean.pessoa}"
 							value="#{vPessoa}" />
-							<h:graphicImage value="/resources/img/editar.png" />
+						<h:graphicImage value="/resources/img/editar.png" />
 					</h:commandLink>
 				</h:column>
 				<h:column>
@@ -105,7 +124,7 @@
 					<h:commandLink title="Excluir" action="#{pessoaBean.removeId}">
 						<f:setPropertyActionListener target="#{pessoaBean.pessoa}"
 							value="#{vPessoa}" />
-							<h:graphicImage value="/resources/img/excluir.png" />
+						<h:graphicImage value="/resources/img/excluir.png" />
 					</h:commandLink>
 				</h:column>
 

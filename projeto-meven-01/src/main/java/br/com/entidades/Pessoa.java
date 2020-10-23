@@ -30,9 +30,28 @@ public class Pessoa implements Serializable {
 
 	private Boolean ativo;
 
+	private String usuarioPerfil;
+	
+	private String senha;
+	
 	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
 
+	
+	public String getUsuarioPerfil() {
+		return usuarioPerfil;
+	}
+	public void setUsuarioPerfil(String usuarioPerfil) {
+		this.usuarioPerfil = usuarioPerfil;
+	}
+	public String getSenha() {
+		return senha;
+	}
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}

@@ -5,29 +5,13 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 <h:head>
-	<title>Curso JSF</title>
-
-	<script>
-		function alteraValorDoCampo() {
-			var campo = document.getElementById("formPessoa:nome");
-			campo.value='Voce clicou no boão :)';
-		}
-	</script>
+	<title>Login</title>
 
 </h:head>
 <h:body>
 	<h:form id="formPessoa">
-		<h:outputLabel value="CURSO JSF + PRIME FACES" />
-		<br />
-		<br />
-		<h:inputText id="nome" onclick="this.value='a novo texto é:'" onchange="this.value=this.value=this.value.toUpperCase();" />
-		<br />
-		<br />
-		<h:commandButton action="primeirapagina" value="Avançar" />
-
-		<br />
-		<br />
-		<h:commandButton onclick="alteraValorDoCampo();" value="Clique aqui" />
+		<h:outputLabel value="Faça login" />
+		
 	</h:form>
 </h:body>
 
