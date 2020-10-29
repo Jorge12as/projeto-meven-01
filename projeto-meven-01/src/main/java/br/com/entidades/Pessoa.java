@@ -29,8 +29,8 @@ public class Pessoa implements Serializable {
 	private String[] frameworks;
 
 	private Boolean ativo;
-
 	private String usuarioPerfil;
+	private String login;
 	
 	private String senha;
 	
@@ -38,11 +38,11 @@ public class Pessoa implements Serializable {
 	private Date dataNascimento;
 
 	
-	public String getUsuarioPerfil() {
-		return usuarioPerfil;
+	public String getlogin() {
+		return login;
 	}
-	public void setUsuarioPerfil(String usuarioPerfil) {
-		this.usuarioPerfil = usuarioPerfil;
+	public void setlogin(String login) {
+		this.login = login;
 	}
 	public String getSenha() {
 		return senha;
@@ -115,6 +115,12 @@ public class Pessoa implements Serializable {
 		this.dataNascimento = dataNascimento;
 	}
 
+	public String getUsuarioPerfil() {
+		return usuarioPerfil;
+	}
+	public void setUsuarioPerfil(String usuarioPerfil) {
+		this.usuarioPerfil = usuarioPerfil;
+	}
 	public Pessoa() {
 	}
 

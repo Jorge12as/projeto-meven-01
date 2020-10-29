@@ -7,15 +7,23 @@
 <h:head>
 	<title>Curso JSF</title>
 	<h:body>
-
 		<h:graphicImage height="70" width="70" library="img"
 			name="jpa+jsf.jpg" />
-		<h:graphicImage height="150" width="400"
-			value="/resources/img/CartaoAtual.jpg" />
+		<h:form>
+			<h:commandLink action="primeirapagina" value="Administração"
+				style="margin-left:0.5cm;" />
+			<h:commandLink action="Lancamento" value="Lançamento"
+				style="margin-left:0.5cm;" />
+			<h:commandLink action="index" value="Trocar Usuário"
+				style="margin-left:0.5cm;" />
+		</h:form>
+
+		<br />
+		<br />
 		<h:outputLabel value="CURSO JSF + PRIME FACES" />
 		<br />
 		<br />
-		<h:form id="formPessoa">
+		<h:form id="formPessoa" rendered="#{pessoaBean.permiteAcesso('ADMINISTRADOR')}">
 			<h:panelGrid columns="2">
 				<f:facet name="header">
 					<h:outputText value="Cadastro de usuários" />
@@ -57,30 +65,30 @@
 				<h:selectBooleanCheckbox value="#{pessoaBean.pessoa.ativo}" />
 
 				<h:outputLabel value="Usuário: " />
-				<h:inputText value="#{pessoaBean.pessoa.usuarioPerfil}" />
+				<h:inputText value="#{pessoaBean.pessoa.login}" />
 
 				<h:outputLabel value="Senha: " />
 				<h:inputSecret value="#{pessoaBean.pessoa.senha}" />
 
 				<h:outputLabel value="Perfil: " />
-				<h:selectOneMenu id="usuarioPerfil" value="#{pessoaBean.pessoa.usuarioPerfil}"
-					required="false">
-					<f:selectItem itemLabel="[-Selecione-]"	noSelectionOption="true" />
+				<h:selectOneMenu id="usuarioPerfil"
+					value="#{pessoaBean.pessoa.usuarioPerfil}" required="false">
+					<f:selectItem itemLabel="[-Selecione-]" noSelectionOption="true" />
 					<f:selectItem itemValue="ADMINISTRADOR" itemLabel="Administrador" />
 					<f:selectItem itemValue="SUPERVISOR" itemLabel="Supervisor" />
 					<f:selectItem itemValue="USUARIO PADRÃO" itemLabel="Usuario padrão" />
 				</h:selectOneMenu>
-				
-				
+
+
 				<h:panelGroup>
 					<h:commandButton action="#{pessoaBean.novo()}" value="Novo"
-						image="/resources/img/novo.png" />
+						image="/resources/img/novo.png" title="Novo usuário" />
 					<h:commandButton action="#{pessoaBean.salvar()}" value="Salvar"
-						image="/resources/img/salvar.png" />
+						image="/resources/img/salvar.png" title="Gravar usuário" />
 					<h:commandButton action="#{pessoaBean.removeId()}" value="Excluir"
-						image="/resources/img/excluir.png" />
+						image="/resources/img/excluir.png" title="Excluir usuário" />
 					<h:commandButton type="reset" value="Limpar"
-						image="/resources/img/x.png" title="Limpar" />
+						image="/resources/img/clean.png" title="Limpar" />
 
 				</h:panelGroup>
 			</h:panelGrid>
@@ -119,7 +127,8 @@
 						<h:graphicImage value="/resources/img/editar.png" />
 					</h:commandLink>
 				</h:column>
-				<h:column>
+
+				<h:column rendered="#{pessoaBean.permiteAcesso('ADMINISTRADOR')}">
 					<f:facet name="header">Excluir</f:facet>
 					<h:commandLink title="Excluir" action="#{pessoaBean.removeId}">
 						<f:setPropertyActionListener target="#{pessoaBean.pessoa}"
