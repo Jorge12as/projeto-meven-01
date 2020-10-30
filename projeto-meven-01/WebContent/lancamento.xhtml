@@ -9,9 +9,41 @@
 
 </h:head>
 <h:body>
-	<h:form id="formLogin" style="margin-top:15%;margin-left:40%;" >
-		<h1>Faça login</h1>	
+
+	<h:form>
+		<h:commandLink action="primeirapagina" value="Administração" style="margin-left:0.5cm;" />
+		<h:commandLink action="Lancamento" value="Lançamento" style="margin-left:0.5cm;" />
+		<h:commandLink action="index" value="Trocar Usuário" style="margin-left:0.5cm;" />
+	</h:form>
+	<h:form id="formLogin" style="margin-top:15%;margin-left:40%;">
+		<h1>Faça login</h1>
+
+		<h:panelGrid columns="2">
+		<f:facet name="header">
+			<h:outputLabel value="Lançamento" />
+		</f:facet>
 		
+		<h:outputLabel value="Id :" />
+		<h:inputText value="#{lancamentoBean.lancamento.id}" readonly="true"/>
+		
+		<h:outputText value="Nota :" />
+		<h:inputText value="#{lancamentoBean.lancamento.numeroNotaFiscal}" />
+		
+		<h:outputText value="Origem :" />
+		<h:inputText value="#{lancamentoBean.lancamento.empresaOrigem}" />
+		
+		<h:outputText value="Destino" />
+		<h:inputText value="#{lancamentoBean.lancamento.empresaDestino}" />
+		<h:outputLabel value="" />
+		<h:panelGroup>
+			<h:commandButton action="#{lancamentoBean.novo()}" value="Novo" image="/resources/img/novo.png" title="Novo usuário" style="margin-left:0.0cm;"/>
+			<h:commandButton action="#{lancamentoBean.salvar()}" value="Salvar" image="/resources/img/salvar.png" title="Gravar usuário" style="margin-left:0.3cm;"/>
+			<h:commandButton action="#{lancamentoBean.remover()}" value="Excluir" image="/resources/img/excluir.png" title="Excluir usuário" style="margin-left:0.3cm;"/>
+			<h:commandButton type="reset" value="Limpar" image="/resources/img/clean.png" title="Limpar" />
+
+		</h:panelGroup>
+		
+		</h:panelGrid>
 	</h:form>
 </h:body>
 
