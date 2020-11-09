@@ -24,41 +24,67 @@ public class Pessoa implements Serializable {
 
 	private Integer idade;
 
+	private String nivelProgramador;
+
+	private Integer linguagens[];
+
 	private String sexo;
 
 	private String[] frameworks;
 
 	private Boolean ativo;
-	private String usuarioPerfil;
-	private String login;
-	
-	private String senha;
-	
-	@Temporal(TemporalType.DATE)
-	private Date dataNascimento;
 
-	
+	private String usuarioPerfil;
+
+	private String login;
+
+	private String senha;
+
+	private String cep;
+
+	public void setcep(String cep) {
+		this.cep = cep;
+	}
+
+	public String getcep() {
+		return cep;
+	}
+
+	@Temporal(TemporalType.DATE)
+	private Date dataNascimento = new Date();
+
 	public String getlogin() {
 		return login;
 	}
+
 	public void setlogin(String login) {
 		this.login = login;
 	}
+
 	public String getSenha() {
 		return senha;
 	}
+
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
 
-	
+	public void setNivelProgramador(String nivelProgramador) {
+		this.nivelProgramador = nivelProgramador;
+	}
+
+	public String getNivelProgramador() {
+		return nivelProgramador;
+	}
+
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
+
 	public Boolean getAtivo() {
 		return ativo;
 	}
-	
+
 	public void setFrameworks(String[] frameworks) {
 		this.frameworks = frameworks;
 	}
@@ -81,6 +107,14 @@ public class Pessoa implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public void setLinguagens(Integer[] linguagens) {
+		this.linguagens = linguagens;
+	}
+
+	public Integer[] getLinguagens() {
+		return linguagens;
 	}
 
 	public String getNome() {
@@ -118,9 +152,11 @@ public class Pessoa implements Serializable {
 	public String getUsuarioPerfil() {
 		return usuarioPerfil;
 	}
+
 	public void setUsuarioPerfil(String usuarioPerfil) {
 		this.usuarioPerfil = usuarioPerfil;
 	}
+
 	public Pessoa() {
 	}
 

@@ -6,8 +6,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.annotations.ForeignKey;
-
 @Entity
 public class Lancamento {
 
@@ -23,6 +21,7 @@ public class Lancamento {
 	private String empresaDestino;
 	
 	//Criando relacionamento da entre as entidades Lancamento com Pessoa - muitos para um
+	@SuppressWarnings("deprecation")
 	@ManyToOne(optional = false)
 	@org.hibernate.annotations.ForeignKey(name = "ususario_fk")
 	private Pessoa usuario;
