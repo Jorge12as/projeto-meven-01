@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
 <h:head>
 	<title>Curso JSF</title>
@@ -28,8 +29,8 @@
 				<h:inputText value="#{pessoaBean.pessoa.id}" readonly="true" />
 
 				<h:outputLabel value="Nome: " />
-				<h:inputText value="#{pessoaBean.pessoa.nome}" rendered="true"
-					requiredMessage="Informe o nome do usuário"
+				<h:inputText value="#{pessoaBean.pessoa.nome}" pt:placeholder="Informe o nome do usuario" 
+					rendered="true"	requiredMessage="Informe o nome do usuário"
 					validatorMessage="O nome tem que ter no minimo 5 letras">
 					<f:validateLength minimum="5" maximum="30" />
 				</h:inputText>
@@ -50,7 +51,7 @@
 				</h:selectOneMenu>
 
 				<h:outputLabel value="Nascimento:" />
-				<h:inputText value="#{pessoaBean.pessoa.dataNascimento}"
+				<h:inputText value="#{pessoaBean.pessoa.dataNascimento}" pt:placeholder="Informa a data de nascimento"
 					converterMessage="Data de nascimento errada!">
 					<f:convertDateTime pattern="dd/MM/yyyy" dateStyle="full"
 						locale="pt_BR" timeZone="GMT-03:00" />
@@ -71,16 +72,36 @@
 				<h:outputLabel value="Ativo: " />
 				<h:selectBooleanCheckbox value="#{pessoaBean.pessoa.ativo}" />
 
-				<h:outputLabel value="CEP:" />
-				<h:inputText value="#{pessoaBean.pessoa.cep}">
-					<f:ajax event="blur" execute="@this" listener="#{pessoaBean.pesquisaCep()}"/>
+				<h:outputLabel value="CEP:"/>
+				<h:inputText value="#{pessoaBean.pessoa.cep}" pt:placeholder="Informe um Cep válido!">
+    				<f:ajax event="blur" execute="@this" listener="#{pessoaBean.pesquisarCep}"
+       				render="logradouro complemento bairro localidade uf ibge gia"/>
 				</h:inputText>
 				
+				<h:outputLabel value="logradouro " />
+				<h:inputText value="#{pessoaBean.pessoa.logradouro}" id ="logradouro"/>
+				
+				<h:outputLabel value="Complemento " />
+				<h:inputText value="#{pessoaBean.pessoa.complemento}" id ="complemento"/>
+				
+				<h:outputLabel value="Bairro " />
+				<h:inputText value="#{pessoaBean.pessoa.bairro}" id ="bairro"/>
+				
+				<h:outputLabel value="Localidade " />
+				<h:inputText value="#{pessoaBean.pessoa.localidade}" id ="localidade"/>
+				
+				<h:outputLabel value="UF " />
+				<h:inputText value="#{pessoaBean.pessoa.uf}" id ="uf"/>
+				
+				<h:outputLabel value="Ibge " />
+				<h:inputText value="#{pessoaBean.pessoa.ibge}" id ="ibge"/>
+				
+											
 				<h:outputLabel value="Usuário: " />
-				<h:inputText value="#{pessoaBean.pessoa.login}" />
+				<h:inputText value="#{pessoaBean.pessoa.login}" pt:placeholder="Informe um usúario"/>
 
 				<h:outputLabel value="Senha: " />
-				<h:inputSecret value="#{pessoaBean.pessoa.senha}" />
+				<h:inputSecret value="#{pessoaBean.pessoa.senha}" pt:placeholder="Informe a senha"/>
 
 				<h:outputLabel value="Perfil: " />
 				<h:selectOneMenu id="usuarioPerfil"
@@ -108,7 +129,12 @@
 					<f:selectItem itemValue="4" itemLabel="C#" />
 					<f:selectItem itemValue="5" itemLabel="Sql" />
 				</h:selectManyCheckbox>
-
+				
+				<h:outputLabel value="Estados: " />
+				<h:selectOneMenu value="#{pessoaBean.pessoa.objEstadoTemp}">
+					<f:selectItems value="#{pessoaBean.estados}"/>
+				</h:selectOneMenu>
+				
 				<h:panelGroup>
 					<h:commandButton action="#{pessoaBean.novo()}" value="Novo"
 						id="botaoNovo" image="/resources/img/novo.png"
