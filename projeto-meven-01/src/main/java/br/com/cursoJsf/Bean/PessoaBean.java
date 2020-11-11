@@ -20,7 +20,10 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.gson.Gson;
 
 import br.com.dao.DaoGeneric;
+import br.com.entidades.Cidades;
+import br.com.entidades.Estados;
 import br.com.entidades.Pessoa;
+import br.com.jpautil.JPAUTIL;
 import br.com.repository.IDaoPessoa;
 import br.com.repository.IDaoPessoaImpl;
 
@@ -33,6 +36,7 @@ public class PessoaBean {
 	private List<Pessoa> listPessoas = new ArrayList<Pessoa>();
 	private IDaoPessoa iDaoPessoa = new IDaoPessoaImpl();
 	private List<SelectItem> estados;
+	private List<SelectItem> cidades;
 
 	public String logar() {
 
@@ -174,7 +178,40 @@ public class PessoaBean {
 		return estados;
 	}
 
+	@SuppressWarnings("unchecked")
+	public void carregaCidades(AjaxBehaviorEvent event) {
+
+		String codigoEstado = (String) event.getComponent().getAttributes().get("submittedValue");
+		if (codigoEstado != null) {
+
+			Estados estado = JPAUTIL.getEntityManager().find(Estados.class, Long.parseLong(codigoEstado));
+			if (estado != null) {
+				pessoa.setObjEstadoTemp(estado);
+
+				List<Cidades> cidades = JPAUTIL.getEntityManager()
+						.createQuery("from Cidades where estados.id = " + codigoEstado).getResultList();
+
+				List<SelectItem> selectItemCidade = new ArrayList<SelectItem>();
+
+				for (Cidades cidade : cidades) {
+
+					selectItemCidade.add(new SelectItem(cidade.getId(), cidade.getNome()));
+				}
+
+				setCidades(selectItemCidade);
+			}
+		}
+	}
+
 	public List<Pessoa> getListPessoas() {
 		return listPessoas;
+	}
+
+	public void setCidades(List<SelectItem> cidades) {
+		this.cidades = cidades;
+	}
+
+	public List<SelectItem> getCidades() {
+		return cidades;
 	}
 }

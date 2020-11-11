@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -48,9 +49,9 @@ public class Pessoa implements Serializable {
 	private String complemento;
 
 	private String bairro;
-	
+
 	private String localidade;
-	
+
 	private String uf;
 
 	private String ibge;
@@ -60,10 +61,21 @@ public class Pessoa implements Serializable {
 	private String ddd;
 
 	private String siafi;
-	
-	@Transient //OBJETO NÃO FICA PERSISTENTE OU NÃO GRAVA NO BANCO
+
+	@Transient // OBJETO NÃO FICA PERSISTENTE OU NÃO GRAVA NO BANCO
 	private Estados objEstadoTemp;
-	
+
+	@ManyToOne // MUITAS PESSOAS EM UMA PESSA
+	private Cidades cidade;
+
+	public void setCidade(Cidades cidade) {
+		this.cidade = cidade;
+	}
+
+	public Cidades getCidade() {
+		return cidade;
+	}
+
 	public Estados getObjEstadoTemp() {
 		return objEstadoTemp;
 	}

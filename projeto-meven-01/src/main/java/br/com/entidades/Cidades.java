@@ -73,10 +73,10 @@ public class Cidades implements Serializable {
 	// RELACIONAMENTO ENTRE AS TABELAS DIDADES E ESTADOS,(MUITOS CIDADES PARA UM
 	// ESTADO)
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH) // para que aconteça o carregamento dos
-																		// relacionamentos usa-se as clausulas(fetch =
+	private Estados estados;																	// relacionamentos usa-se as clausulas(fetch =
 																		// FetchType.EAGER,) e para que seja feita
-																		// alguma atualização ou refreshe no banco
+																	    // alguma atualização ou refreshe no banco
 																		// usa-se (cascade = CascadeType.REFRESH)para
 																		// que seja carregado em cascata..
-	private Estados estados;
+	
 }
