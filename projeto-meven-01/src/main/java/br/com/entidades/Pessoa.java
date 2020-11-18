@@ -2,10 +2,15 @@ package br.com.entidades;
 
 import java.io.Serializable;
 import java.util.Date;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -56,24 +61,97 @@ public class Pessoa implements Serializable {
 
 	private String ibge;
 
+	private String titEleitoral;
+	
+	private String unidade;
+	
 	private String gia;
 
 	private String ddd;
 
 	private String siafi;
+	
+	private String cpf;
+	
+	@Column(columnDefinition = "longblob")/*Tipo longblob Grava arquivos em base 64*/
+	private String fotoIconBase64;
+	
+	private String extesao; //exteção jpeg; jpg, png
+																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+	public String getFotoIconBase64() {
+		return fotoIconBase64;
+	}
 
+	public void setFotoIconBase64(String fotoIconBase64) {
+		this.fotoIconBase64 = fotoIconBase64;
+	}
+
+	public String getExtesao() {
+		return extesao;
+	}
+
+	public void setExtesao(String extesao) {
+		this.extesao = extesao;
+	}
+
+	public byte[] getFotoIconBase64original() {
+		return fotoIconBase64original;
+	}
+
+	public void setFotoIconBase64original(byte[] fotoIconBase64original) {
+		this.fotoIconBase64original = fotoIconBase64original;
+	}
+
+	@Lob //Grava arquivos na base de dados
+	@Basic(fetch = FetchType.LAZY)
+	private byte[] fotoIconBase64original;
+	
 	@Transient // OBJETO NÃO FICA PERSISTENTE OU NÃO GRAVA NO BANCO
 	private Estados objEstadoTemp;
 
 	@ManyToOne // MUITAS PESSOAS EM UMA PESSA
-	private Cidades cidade;
+	private Cidades cidades;
+	@Transient // OBJETO NÃO FICA PERSISTENTE OU NÃO GRAVA NO BANCO
+	private Estados estados;
 
-	public void setCidade(Cidades cidade) {
-		this.cidade = cidade;
+	
+	
+	public String getTitEleitoral() {
+		return titEleitoral;
 	}
 
-	public Cidades getCidade() {
-		return cidade;
+	public void setTitEleitoral(String titEleitoral) {
+		this.titEleitoral = titEleitoral;
+	}
+
+	public String getUnidade() {
+		return unidade;
+	}
+
+	public void setUnidade(String unidade) {
+		this.unidade = unidade;
+	}
+
+	public void setEstados(Estados estados) {
+		this.estados = estados;
+	}
+
+	public Estados getEstados() {
+		return estados;
+	}
+
+	public void setCidades(Cidades cidade) {
+		this.cidades = cidade;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+	public String getCpf() {
+		return cpf;
+	}
+	public Cidades getCidades() {
+		return cidades;
 	}
 
 	public Estados getObjEstadoTemp() {

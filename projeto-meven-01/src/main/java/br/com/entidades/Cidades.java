@@ -18,6 +18,43 @@ public class Cidades implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	private String nome;
+
+	// RELACIONAMENTO ENTRE AS TABELAS DIDADES E ESTADOS,(MUITOS CIDADES PARA UM
+	// ESTADO)
+	// alguma atualização ou refreshe no banco
+	// usa-se (cascade = CascadeType.REFRESH)para
+	// que seja carregado em cascata..
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH) // para que aconteça o carregamento dos
+	private Estados estados; // relacionamentos usa-se as clausulas(fetch =
+	// FetchType.EAGER,) e para que seja feita
+	
+	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public Estados getEstados() {
+		return estados;
+	}
+
+	public void setEstados(Estados estados) {
+		this.estados = estados;
+	}
 
 	@Override
 	public int hashCode() {
@@ -44,39 +81,4 @@ public class Cidades implements Serializable {
 		return true;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public Estados getEstados() {
-		return estados;
-	}
-
-	public void setEstados(Estados estados) {
-		this.estados = estados;
-	}
-
-	private String nome;
-
-	// RELACIONAMENTO ENTRE AS TABELAS DIDADES E ESTADOS,(MUITOS CIDADES PARA UM
-	// ESTADO)
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH) // para que aconteça o carregamento dos
-	private Estados estados;																	// relacionamentos usa-se as clausulas(fetch =
-																		// FetchType.EAGER,) e para que seja feita
-																	    // alguma atualização ou refreshe no banco
-																		// usa-se (cascade = CascadeType.REFRESH)para
-																		// que seja carregado em cascata..
-	
 }

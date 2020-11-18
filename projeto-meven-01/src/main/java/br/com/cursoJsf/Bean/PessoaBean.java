@@ -1,6 +1,11 @@
 package br.com.cursoJsf.Bean;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -11,14 +16,17 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
-
+import javax.servlet.http.Part;
+import javax.xml.bind.DatatypeConverter;
 import com.google.gson.Gson;
-
 import br.com.dao.DaoGeneric;
 import br.com.entidades.Cidades;
 import br.com.entidades.Estados;
@@ -26,6 +34,7 @@ import br.com.entidades.Pessoa;
 import br.com.jpautil.JPAUTIL;
 import br.com.repository.IDaoPessoa;
 import br.com.repository.IDaoPessoaImpl;
+
 
 @ViewScoped
 @ManagedBean(name = "pessoaBean")
@@ -37,6 +46,7 @@ public class PessoaBean {
 	private IDaoPessoa iDaoPessoa = new IDaoPessoaImpl();
 	private List<SelectItem> estados;
 	private List<SelectItem> cidades;
+	private Part arquivoFoto;
 
 	public String logar() {
 
@@ -72,6 +82,11 @@ public class PessoaBean {
 
 	}
 
+	public void registraLog() {
+		System.out.println("método registraLog");
+		/* Criar a rotina de gravação de log */
+	}
+
 	public boolean permiteAcesso(String acesso) {
 
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -81,11 +96,74 @@ public class PessoaBean {
 		return pessoaUser.getUsuarioPerfil().equals(acesso);
 	}
 
-	public String salvar() {
+	public String salvar() throws IOException {
+
+		/* Processar imagem */
+		byte[] imagemByte = getByte(arquivoFoto.getInputStream());
+		pessoa.setFotoIconBase64original(imagemByte); // SALVA IMAGEM ORIGINAL
+
+		/* TRANSFORMA EM BUFFERIMAGE */
+		BufferedImage bufferImage = ImageIO.read(new ByteArrayInputStream(imagemByte));
+
+		/* PEGA O TIPO DE IMAGEM */
+		int type = bufferImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : bufferImage.getType();
+
+		int largura = 200;
+		int altura = 200;
+
+		/* CRIA MINIATURA */
+		BufferedImage resizedImage = new BufferedImage(altura, largura, type);
+		Graphics2D g = resizedImage.createGraphics();
+		g.drawImage(bufferImage, 0, 0, largura, altura, null);
+		g.dispose();
+
+		/* Escrever novamante a imagem em um tamanho menor */
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		String extensao = arquivoFoto.getContentType().split("\\/")[1];// PEGANDO A EXTENSAO DO ARQUINVO
+		ImageIO.write(resizedImage, extensao, baos);
+
+		/* CRIANDO O CABEÇALHO DA IMAGEM PARA EXIBIR NO NAVEGADOR */
+		String miniImagem = "data:" + arquivoFoto.getContentType() + ";base64,"
+				+ DatatypeConverter.printBase64Binary(baos.toByteArray());
+
+		/* PROCESSAR IMAGEM */
+		pessoa.setFotoIconBase64(miniImagem);
+		pessoa.setExtesao(extensao);
+
 		pessoa = daoGeneric.mergeSalvar(pessoa);
 		carregarPessoas();
 		mostrarMsg("Registro salvo com sucesso!");
 		return "";
+	}
+
+	/* METODO QUE CONVERTE INPUTSTREAM PARA ARRAY DE BYTES */
+	@SuppressWarnings("unused")
+	private byte[] getByte(InputStream is) throws IOException {
+
+		int len;
+		int size = 1024;
+		byte[] buf = null;
+
+		if (is instanceof ByteArrayInputStream) {
+			size = is.available();
+			buf = new byte[size];
+			len = is.read(buf, 0, size);
+
+		} else {
+
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			buf = new byte[size];
+
+			while ((len = is.read(buf, 0, size)) != -1) {
+
+				bos.write(buf, 0, len);
+			}
+
+			buf = bos.toByteArray();
+		}
+
+		return buf;
+
 	}
 
 	public String novo() {
@@ -111,7 +189,6 @@ public class PessoaBean {
 		return "";
 	}
 
-	@SuppressWarnings("unused")
 	private void mostrarMsg(String msg) {
 		FacesContext context = FacesContext.getCurrentInstance();
 		FacesMessage message = new FacesMessage(msg);
@@ -181,25 +258,53 @@ public class PessoaBean {
 	@SuppressWarnings("unchecked")
 	public void carregaCidades(AjaxBehaviorEvent event) {
 
-		String codigoEstado = (String) event.getComponent().getAttributes().get("submittedValue");
-		if (codigoEstado != null) {
+		Estados estado = (Estados) ((HtmlSelectOneMenu) event.getSource()).getValue();
+		if (estado != null) {
 
-			Estados estado = JPAUTIL.getEntityManager().find(Estados.class, Long.parseLong(codigoEstado));
-			if (estado != null) {
-				pessoa.setObjEstadoTemp(estado);
+			pessoa.setObjEstadoTemp(estado);
 
-				List<Cidades> cidades = JPAUTIL.getEntityManager()
-						.createQuery("from Cidades where estados.id = " + codigoEstado).getResultList();
+			List<Cidades> cidades = JPAUTIL.getEntityManager()
+					.createQuery("from Cidades where estados.id = " + estado.getId()).getResultList();
 
-				List<SelectItem> selectItemCidade = new ArrayList<SelectItem>();
+			List<SelectItem> selectItemCidade = new ArrayList<SelectItem>();
 
-				for (Cidades cidade : cidades) {
+			for (Cidades cidade : cidades) {
 
-					selectItemCidade.add(new SelectItem(cidade.getId(), cidade.getNome()));
-				}
-
-				setCidades(selectItemCidade);
+				selectItemCidade.add(new SelectItem(cidade, cidade.getNome()));
 			}
+
+			setCidades(selectItemCidade);
+		}
+	}
+
+	public void mudancaDeValor(ValueChangeEvent evento) {
+		System.out.println("Valor antigo: " + evento.getOldValue());
+		System.out.println("Valor Novo: " + evento.getNewValue());
+	}
+
+	public void mudancaDeValorSobrenome(ValueChangeEvent evento) {
+		System.out.println("Valor antigo: " + evento.getOldValue());
+		System.out.println("Valor Novo: " + evento.getNewValue());
+	}
+
+	@SuppressWarnings("unchecked")
+	public void editar() {
+		if (pessoa.getCidades() != null) {
+			Estados estado = pessoa.getCidades().getEstados(); // CARREGANDO OS ESTADOS AO COMBO ESTADO
+			pessoa.setEstados(estado); // SETANDO O ESTADO DA CONSULTA AO ESTADO DA PESSOA
+
+			// CARREGANDO O COMBO CIDADES
+			List<Cidades> cidades = JPAUTIL.getEntityManager()
+					.createQuery("from Cidades where estados.id = " + estado.getId()).getResultList();
+
+			List<SelectItem> selectItemsCidade = new ArrayList<SelectItem>();
+
+			for (Cidades cidade : cidades) {
+				selectItemsCidade.add(new SelectItem(cidade, cidade.getNome()));
+			}
+
+			setCidades(selectItemsCidade);
+
 		}
 	}
 
@@ -213,5 +318,13 @@ public class PessoaBean {
 
 	public List<SelectItem> getCidades() {
 		return cidades;
+	}
+
+	public void setArquivoFoto(Part arquivoFoto) {
+		this.arquivoFoto = arquivoFoto;
+	}
+
+	public Part getArquivoFoto() {
+		return arquivoFoto;
 	}
 }

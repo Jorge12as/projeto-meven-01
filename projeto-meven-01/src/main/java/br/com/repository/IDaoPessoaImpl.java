@@ -38,13 +38,13 @@ public class IDaoPessoaImpl implements IDaoPessoa {
 
 		EntityManager entityManager = JPAUTIL.getEntityManager();
 		EntityTransaction entityTransaction = entityManager.getTransaction();
-		entityTransaction.begin();
+		entityTransaction.begin();		
 
 		List<Estados> estados = entityManager.createQuery("from Estados").getResultList();
-
+		entityManager.close();
 		for (Estados estado : estados) {
 
-			selectIntems.add(new SelectItem(estado.getId(), estado.getNome()));
+			selectIntems.add(new SelectItem(estado, estado.getNome()));
 		}
 
 		return selectIntems;
