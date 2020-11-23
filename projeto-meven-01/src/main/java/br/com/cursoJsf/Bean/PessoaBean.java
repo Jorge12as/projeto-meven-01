@@ -12,6 +12,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -24,8 +26,10 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import javax.xml.bind.DatatypeConverter;
+
 import com.google.gson.Gson;
 import br.com.dao.DaoGeneric;
 import br.com.entidades.Cidades;
@@ -34,7 +38,6 @@ import br.com.entidades.Pessoa;
 import br.com.jpautil.JPAUTIL;
 import br.com.repository.IDaoPessoa;
 import br.com.repository.IDaoPessoaImpl;
-
 
 @ViewScoped
 @ManagedBean(name = "pessoaBean")
@@ -163,6 +166,23 @@ public class PessoaBean {
 		}
 
 		return buf;
+
+	}
+
+	public void download() throws IOException {
+
+		Map<String, String> parames = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+		String fileDownloadId = parames.get("fileDownloadId");
+
+		Pessoa pessoa = daoGeneric.consultar(Pessoa.class, fileDownloadId);
+		HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
+				.getResponse();
+		response.addHeader("Content-Disposition", "attachment; filename=download." + pessoa.getExtesao());
+		response.setContentType("application/octet-stream");
+		response.setContentLength(pessoa.getFotoIconBase64original().length);
+		response.getOutputStream().write(pessoa.getFotoIconBase64original());
+		response.getOutputStream().flush();
+		FacesContext.getCurrentInstance().responseComplete();
 
 	}
 

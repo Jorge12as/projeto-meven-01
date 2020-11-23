@@ -2,7 +2,6 @@ package br.com.entidades;
 
 import java.io.Serializable;
 import java.util.Date;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +14,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.br.CPF;
+import org.hibernate.validator.constraints.br.TituloEleitoral;
+
+
 
 @Entity
 public class Pessoa implements Serializable {
@@ -24,11 +32,17 @@ public class Pessoa implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-
+	
+	@NotEmpty
+	@Size(min = 10, max = 50, message = "Nome deve ter entre 10 e 50 letras")	
 	private String nome;
 
+	@NotEmpty(message = "Sobrenome deve ser informado")
+	@NotNull(message = "Sobrenome deve ser informado")
 	private String sobrenome;
 
+	@DecimalMax(value = "50", message = "Idade de ser menor que 50")
+	
 	private Integer idade;
 
 	private String nivelProgramador;
@@ -61,6 +75,7 @@ public class Pessoa implements Serializable {
 
 	private String ibge;
 
+	@TituloEleitoral(message = "Titulo eleitoral inválido")
 	private String titEleitoral;
 	
 	private String unidade;
@@ -71,13 +86,16 @@ public class Pessoa implements Serializable {
 
 	private String siafi;
 	
+	@CPF(message = "Cpf Inválido")
 	private String cpf;
 	
 	@Column(columnDefinition = "longblob")/*Tipo longblob Grava arquivos em base 64*/
 	private String fotoIconBase64;
 	
 	private String extesao; //exteção jpeg; jpg, png
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												
+				
+	
+	
 	public String getFotoIconBase64() {
 		return fotoIconBase64;
 	}

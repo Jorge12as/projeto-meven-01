@@ -1,4 +1,4 @@
-package re.com.filter;
+package br.com.filter;
 
 import java.io.IOException;
 
