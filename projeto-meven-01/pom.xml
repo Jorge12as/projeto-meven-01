@@ -16,12 +16,21 @@
 	</properties>
 
 	<dependencies>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.eclipse.persistence/javax.persistence -->
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>javax.persistence</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+
 
 		<!-- https://mvnrepository.com/artifact/com.sun.faces/jsf-api -->
 		<dependency>
@@ -38,29 +47,6 @@
 			<version>2.2.20</version>
 			<scope>compile</scope>
 		</dependency>
-
-		<!-- <dependency> -->
-		<!-- <groupId>org.omnifaces</groupId> -->
-		<!-- <artifactId>omnifaces</artifactId> -->
-		<!-- <version>2.6.6</version> -->
-		<!-- </dependency> -->
-
-		<!-- <dependency> -->
-		<!-- <groupId>javax.enterprise</groupId> -->
-		<!-- <artifactId>cdi-api</artifactId> -->
-		<!-- <version>1.0</version> -->
-		<!-- </dependency> -->
-
-
-
-		<!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
-		<dependency>
-			<groupId>org.hibernate.validator</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>6.1.6.Final</version>
-		</dependency>
-
-
 
 		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
 		<dependency>
@@ -113,6 +99,21 @@
 			<artifactId>hibernate-c3p0</artifactId>
 			<version>5.4.3.Final</version>
 		</dependency>
+
+		<!-- Weld (implementação do CDI) -->
+		<dependency>
+			<groupId>org.jboss.weld.servlet</groupId>
+			<artifactId>weld-servlet</artifactId>
+			<version>2.2.9.Final</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>6.1.6.Final</version>
+		</dependency>
+
 
 	</dependencies>
 	<build>
